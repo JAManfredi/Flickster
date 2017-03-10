@@ -1,8 +1,11 @@
 package flickster.jm.com.flickster.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.FieldNamingPolicy;
@@ -13,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import flickster.jm.com.flickster.R;
 import flickster.jm.com.flickster.adapters.MovieArrayAdapter;
 import flickster.jm.com.flickster.models.Movie;
@@ -30,7 +35,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MovieActivity extends AppCompatActivity {
-    final static String movieDBURL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    final static String nowPlayingURL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    final static String popularURL = "https://api.themoviedb.org/3/movie/popular?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     private Gson gson;
     private List<Movie> movieList;
@@ -56,9 +62,17 @@ public class MovieActivity extends AppCompatActivity {
         loadMovies();
     }
 
+    @OnItemClick(R.id.lvMovies)
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Movie movie = movieList.get(position);
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("movie", Parcels.wrap(movie));
+        intent.putExtra("popularity", position + 1);
+        startActivity(intent);
+    }
 
     private void loadMovies() {
-        Request request = new Request.Builder().url(movieDBURL).build();
+        Request request = new Request.Builder().url(popularURL).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

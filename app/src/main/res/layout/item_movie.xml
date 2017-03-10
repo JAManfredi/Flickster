@@ -28,7 +28,6 @@
         android:ellipsize="end"
         android:gravity="start"
         android:includeFontPadding="false"
-        android:singleLine="true"
         android:text="Movie Title"
         android:textAlignment="viewStart"
         android:textColor="@android:color/black"
