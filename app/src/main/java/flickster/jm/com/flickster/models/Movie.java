@@ -8,6 +8,11 @@ import org.parceler.Parcel;
 
 @Parcel
 public class Movie {
+    public enum MovieType {
+        NORMAL,
+        POPULAR
+    }
+
     int id;
     String posterPath;
     String backdropPath;
@@ -15,6 +20,7 @@ public class Movie {
     String overview;
     float popularity;
     float voteAverage;
+    MovieType movieType;
 
     public Movie() {
     }
@@ -24,6 +30,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
+        // https://image.tmdb.org/t/p/w342/45Y1G5FEgttPAwjTYic6czC9xCn.jpg
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
 
@@ -45,5 +52,13 @@ public class Movie {
 
     public float getVoteAverage() {
         return voteAverage;
+    }
+
+    public MovieType getMovieType() {
+        if (voteAverage >= 5.0) {
+            return MovieType.POPULAR;
+        } else {
+            return MovieType.NORMAL;
+        }
     }
 }

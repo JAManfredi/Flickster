@@ -60,15 +60,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <ProgressBar
-        android:id="@+id/pbImage"
+        android:id="@+id/pbImageLoad"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/ivMovieImage"
-        app:layout_constraintLeft_toRightOf="@+id/ivMovieImage"
-        app:layout_constraintRight_toLeftOf="@+id/ivMovieImage"
-        app:layout_constraintTop_toBottomOf="@+id/ivMovieImage"
-        tools:visibility="visible" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMovieImage"
+        app:layout_constraintLeft_toLeftOf="@+id/ivMovieImage"
+        app:layout_constraintRight_toRightOf="@+id/ivMovieImage"
+        app:layout_constraintTop_toTopOf="@+id/ivMovieImage" />
 
 </android.support.constraint.ConstraintLayout>
