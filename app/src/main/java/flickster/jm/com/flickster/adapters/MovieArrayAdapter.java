@@ -65,7 +65,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 holder.tvTitle.setText(movie.getOriginalTitle());
                 holder.tvOverview.setText(movie.getOverview());
 
-
                 // Set image URL based on orientation
                 String imageURL = movie.getPosterPath();
                 int orientation = getContext().getResources().getConfiguration().orientation;
@@ -73,7 +72,6 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     imageURL = movie.getBackdropPath();
                 }
 
-                DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
                 Picasso.with(getContext()).load(imageURL)
                         .fit()
                         .noFade()
@@ -99,10 +97,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                 Picasso.with(getContext()).cancelRequest(holder.ivImage); // Without this callback never gets called for first cell
 
                 // Set Image
+                DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
                 Picasso.with(getContext()).load(movie.getBackdropPath())
-                        .fit()
-                        .centerInside()
-                        .noFade()
+                        .resize(metrics.widthPixels - 16, 0)
                         .transform(new RoundedCornersTransformation(12, 0))
                         .into(holder.ivImage, new Callback() {
                             @Override

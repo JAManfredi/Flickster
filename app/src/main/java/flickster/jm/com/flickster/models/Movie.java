@@ -30,7 +30,6 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        // https://image.tmdb.org/t/p/w342/45Y1G5FEgttPAwjTYic6czC9xCn.jpg
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
 
@@ -60,5 +59,9 @@ public class Movie {
         } else {
             return MovieType.NORMAL;
         }
+    }
+
+    public String getVideoURL() {
+        return "https://api.themoviedb.org/3/movie/" + String.valueOf(id) + "/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
     }
 }

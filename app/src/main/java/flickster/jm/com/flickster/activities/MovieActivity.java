@@ -46,6 +46,8 @@ public class MovieActivity extends AppCompatActivity {
     private OkHttpClient client = new OkHttpClient();
     private GsonBuilder gsonBuilder = new GsonBuilder();
 
+    private float maxMoviePopularity = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +67,20 @@ public class MovieActivity extends AppCompatActivity {
     @OnItemClick(R.id.lvMovies)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Movie movie = movieList.get(position);
-        Intent intent = new Intent(this, MovieDetailsActivity.class);
-        intent.putExtra("movie", Parcels.wrap(movie));
-        intent.putExtra("popularity", position + 1);
-        startActivity(intent);
+        if (movie.getMovieType() == Movie.MovieType.NORMAL) {
+            Intent intent = new Intent(this, MovieDetailsActivity.class);
+            intent.putExtra("movie", Parcels.wrap(movie));
+            intent.putExtra("maxPopularity", maxMoviePopularity);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, YouTubeActivity.class);
+            intent.putExtra("video_url", movie.getVideoURL());
+            startActivity(intent);
+        }
     }
 
     private void loadMovies() {
-        Request request = new Request.Builder().url(popularURL).build();
+        Request request = new Request.Builder().url(nowPlayingURL).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -92,6 +100,13 @@ public class MovieActivity extends AppCompatActivity {
                         JSONArray responseArray = responseObj.getJSONArray("results");
                         final List<Movie> newList = gson.fromJson(responseArray.toString(),
                                 new TypeToken<List<Movie>>(){}.getType());
+
+                        // Set Max Popularity Value
+                        for (Movie movie : newList) {
+                            if (maxMoviePopularity < movie.getPopularity()) {
+                                maxMoviePopularity = movie.getPopularity();
+                            }
+                        }
 
                         // Run on main thread to update UI
                         runOnUiThread(new Runnable() {
