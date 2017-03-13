@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:logo="@drawable/ic_movie"
-        android:label=""
+        android:label="Flickster"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MovieActivity"
